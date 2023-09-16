@@ -3,6 +3,7 @@
 using System.Data.SqlClient;
 using System.Data;
 
+using Laboratorio03;
 class Program
 {
     // Cadena de conexión a la base de datos
@@ -11,7 +12,30 @@ class Program
 
     static void Main()
     {
+        DataTable dt = new DataTable();
 
+        foreach (DataRow row in dt.Rows)
+        {
+            int id = (int)row["idTrabajador"];
+            string nombre = (string)row["Nombre"];
+            string apellido = (string)row["Apellido"];
+            decimal sueldo = (decimal)row["Sueldo"];
+            DateTime fecha = (DateTime)row["Fecha_de_Nacimiento"];
+
+            Console.WriteLine($"ID: {id}, Nombre: {nombre}, Apellido: {apellido}, Sueldo: {sueldo}, Fecha:{fecha}");
+
+        }
+
+        List<Trabajador> list = ListarTrabajadoresListaObjetos();
+        foreach (var item in list)
+        {
+            Console.WriteLine(item.idTrabajador);
+            Console.WriteLine(item.Nombre);
+            Console.WriteLine(item.Apellido);
+            Console.WriteLine(item.Sueldo);
+            Console.WriteLine(item.Fecha_de_Nacimiento);
+
+        }
     }
 
     //De forma desconectada
@@ -68,9 +92,11 @@ class Program
 
                             trabajadores.Add(new Trabajador
                             {
-                                Id = (int)reader["idTrabajador"],
-                                Nombre = reader["Nombre"].ToString(),
-                                Sueldo = reader["Sueldo"].ToString()
+                                idTrabajador = (int)reader["idTrabajador"],
+                                Nombre = (string)reader["Nombre"],
+                                Apellido = (string)reader["Apellido"],
+                                Sueldo = (decimal)reader["Sueldo"],
+                                Fecha_de_Nacimiento = (DateTime)reader["Fecha_de_Nacimiento"]
                             });
 
                         }
